@@ -31,11 +31,23 @@ class Recon:
         self.subdomain_list = subfinder.stdout.split('\n')
         await self.check_subdomain()
 
-    def gau_parse(self):
+    def gau_parse_single(self,domain:str):
+        gau = subprocess.run(['gau', f"{domain}"], capture_output=True, text=True)
+        gau_list_temp = gau.stdout.split('\n')
+        self.gau_list.append(gau_list_temp)
+
+    def gau_parse_all(self):
         for domain in self.subdomain_list:
-            gau = subprocess.run(['gau',f"{domain}"],capture_output=True,text=True)
-            gau_list_temp = gau.stdout.split('\n')
-            self.gau_list.append(gau_list_temp)
+            self.gau_parse_single(domain)
+        self.gau_parse_single(self.domain)
+
+
+    def get_gau_list(self) -> list[list[str]]:
+        return self.gau_list
+
+    def get_subdomain(self) -> list[str]:
+        return self.subdomain_list
+
 
 
 
@@ -45,7 +57,7 @@ class Recon:
 async def main():
     kuper = Recon("kuper.ru")
     await kuper.subdomain_parse()
-    kuper.gau_parse()
+    kuper.gau_parse_all()
     print(kuper.gau_list)
 
 
