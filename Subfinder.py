@@ -7,8 +7,13 @@ class Subfinder:
     def __init__(self, domain: str):
         self.subdomain_list: list[str] = []
         self.domain = domain
-        self.gau_list: list[list[str]] = []
+    def __repr__(self):
+        return f"Subfinder(domain = {self.domain},subdomain_list={self.subdomain_list}"
 
+
+class SubfinderCheck:
+    def __init__(self,subfinder):
+        self.subfinder = subfinder
     @staticmethod
     async def check_single_domain(subdomain: str) -> str:
         async with aiohttp.ClientSession() as session:
@@ -21,12 +26,17 @@ class Subfinder:
 
     async def check_subdomain(self):
         tasks  = []
-        for subdomain in self.subdomain_list:
+        for subdomain in self.subfinder.subdomain_list:
             tasks.append(self.check_single_domain(subdomain))
         results = await asyncio.gather(*tasks)
-        self.subdomain_list = [result for result in results if result is not None]
-        return self.subdomain_list
+        self.subfinder.subdomain_list = [result for result in results if result is not None]
+        return self.subfinder.subdomain_list
+
+
+class SubfinderParser:
+    def __init__(self, subfinder):
+        self.subfinder = subfinder
 
     def subdomain_parse(self):
-        subfinder = subprocess.run(["subfinder", "-d", f"{self.domain}"], capture_output=True, text=True)
-        self.subdomain_list = subfinder.stdout.split('\n')
+        subfinder = subprocess.run(["subfinder", "-d", f"{self.subfinder.domain}"], capture_output=True, text=True)
+        self.subfinder.subdomain_list = subfinder.stdout.split('\n')

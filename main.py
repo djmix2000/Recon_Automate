@@ -1,12 +1,14 @@
 import asyncio
 from Gau import Gau, GauBatchParser
-from Subfinder import Subfinder
+from Subfinder import Subfinder, SubfinderParser, SubfinderCheck
 
 
 async def main():
     subfinder = Subfinder("kuper.ru")
-    subfinder.subdomain_parse()
-    subdomain_list = await subfinder.check_subdomain()
+    subfinder_parser = SubfinderParser(subfinder)
+    subfinder_parser.subdomain_parse()
+    subfinder_check = SubfinderCheck(subfinder)
+    subdomain_list = await subfinder_check.check_subdomain()
     print(subdomain_list)
     gau = Gau(subdomain_list,"kuper.ru")
     batch_parser = GauBatchParser(gau)
