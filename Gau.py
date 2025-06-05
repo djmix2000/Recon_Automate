@@ -18,7 +18,7 @@ class GauSingleParser:
 
 
 class GauBatchParser:
-    def __init__(self,gau):
+    def __init__(self,gau:Gau):
         self.gau = gau
 
     def parse_all(self):

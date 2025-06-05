@@ -12,7 +12,7 @@ class Subfinder:
 
 
 class SubfinderCheck:
-    def __init__(self,subfinder):
+    def __init__(self,subfinder:Subfinder):
         self.subfinder = subfinder
     @staticmethod
     async def check_single_domain(subdomain: str) -> str:
@@ -34,7 +34,7 @@ class SubfinderCheck:
 
 
 class SubfinderParser:
-    def __init__(self, subfinder):
+    def __init__(self, subfinder:Subfinder):
         self.subfinder = subfinder
 
     def subdomain_parse(self):
