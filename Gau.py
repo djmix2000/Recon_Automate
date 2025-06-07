@@ -21,7 +21,7 @@ class GauBatchParser:
     def __init__(self,gau:Gau):
         self.gau = gau
 
-    def parse_all(self):
+    def parse(self):
         for domain in self.gau.subdomain_list:
             self.gau.gau_list.append(GauSingleParser.parse(domain))
         self.gau.gau_list.append(GauSingleParser.parse(self.gau.domain))

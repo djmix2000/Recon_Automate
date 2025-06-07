@@ -6,13 +6,13 @@ from Subfinder import Subfinder, SubfinderParser, SubfinderCheck
 async def main():
     subfinder = Subfinder("kuper.ru")
     subfinder_parser = SubfinderParser(subfinder)
-    subfinder_parser.subdomain_parse()
+    subfinder_parser.parse()
     subfinder_check = SubfinderCheck(subfinder)
-    subdomain_list = await subfinder_check.check_subdomain()
+    subdomain_list = await subfinder_check.check_subdomains()
     print(subdomain_list)
     gau = Gau(subdomain_list,"kuper.ru")
     batch_parser = GauBatchParser(gau)
-    batch_parser.parse_all()
+    batch_parser.parse()
     print(repr(gau))
 
 

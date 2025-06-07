@@ -24,7 +24,7 @@ class SubfinderCheck:
             except Exception as e:
                 print(f"[!] Error for {subdomain}: {e}")
 
-    async def check_subdomain(self):
+    async def check_subdomains(self):
         tasks  = []
         for subdomain in self.subfinder.subdomain_list:
             tasks.append(self.check_single_domain(subdomain))
@@ -37,6 +37,6 @@ class SubfinderParser:
     def __init__(self, subfinder:Subfinder):
         self.subfinder = subfinder
 
-    def subdomain_parse(self):
+    def parse(self):
         subfinder = subprocess.run(["subfinder", "-d", f"{self.subfinder.domain}"], capture_output=True, text=True)
         self.subfinder.subdomain_list = subfinder.stdout.split('\n')
